@@ -44,7 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           InkWell(
                             onTap: () {},
                             child: Text(
-                              "Create ",
+                              "Create News ",
                               style: TextStyle(
                                   color: AppHelper.themelight
                                       ? Colors.white
@@ -672,8 +672,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                   backgroundColor:
                                       MaterialStateProperty.all(Colors.amber)),
                               onPressed: () async {
-                              
-
                                 if (controller.formKey.currentState!
                                     .validate()) {
                                   if (controller.selectedValue.value.trim() ==
@@ -709,11 +707,11 @@ class _HomeScreenState extends State<HomeScreen> {
                                 }
                               },
                               child: SizedBox(
-                                  height: 50,
+                                  height: 5.h,
                                   width: size.width * 0.80,
                                   child: Center(
                                       child: Text(
-                                    'Add',
+                                    'Submit',
                                     style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 15.sp,

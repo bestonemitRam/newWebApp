@@ -4,7 +4,7 @@ class UserData {
   dynamic user_mobile;
   dynamic user_token;
 
-  UserData( {
+  UserData({
     this.user_id,
     this.user_name,
     this.user_mobile,

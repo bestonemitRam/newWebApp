@@ -5,7 +5,6 @@ import 'package:sidebarx/sidebarx.dart';
 
 class DashBoardScreenActivity extends StatefulWidget {
   const DashBoardScreenActivity({Key? key}) : super(key: key);
-
   @override
   _DashBoardScreenActivityState createState() =>
       _DashBoardScreenActivityState();
@@ -171,12 +170,12 @@ class SideBarXExample extends StatelessWidget {
           icon: Icons.home,
           label: 'Home',
         ),
-        SidebarXItem(
-          icon: Icons.search,
-          label: 'Search',
-        ),
-        SidebarXItem(icon: Icons.settings, label: 'Setting'),
-        SidebarXItem(icon: Icons.dark_mode, label: 'Light/Dark Mode'),
+        //   SidebarXItem(
+        //     icon: Icons.search,
+        //     label: 'Search',
+        //   ),
+        //   SidebarXItem(icon: Icons.settings, label: 'Setting'),
+        //   SidebarXItem(icon: Icons.dark_mode, label: 'Light/Dark Mode'),
       ],
     );
   }

@@ -51,8 +51,7 @@ class _WebLoginScreenState extends State<WebLoginScreen> {
                       child: Container(
                         width: size.width * 0.40,
                         child: Image.asset(
-                          //AppImages.welcomescreenillimage,
-                          "",
+                          AppImages.welcomescreenillimage,
 
                           fit: BoxFit.fill,
                           //  width: 30.w,
@@ -185,8 +184,7 @@ class _WebLoginScreenState extends State<WebLoginScreen> {
                                                   isSendOtp = false;
                                                   isloading = false;
 
-                                                  print(
-                                                      "ldkjfgkhfkjgh  verificationId");
+                                              
                                                   verificationIds =
                                                       verificationId;
                                                 });
@@ -245,8 +243,7 @@ class _WebLoginScreenState extends State<WebLoginScreen> {
                       child: Container(
                         width: size.width * 0.40,
                         child: Image.asset(
-                          //AppImages.welcomescreenillimage,
-                          "",
+                          AppImages.welcomescreenillimage,
 
                           fit: BoxFit.fill,
                           //  width: 30.w,
@@ -385,7 +382,8 @@ class _WebLoginScreenState extends State<WebLoginScreen> {
 
                                               Navigator.pushNamed(
                                                   context,
-                                                  Routes .dashBoardScreenActivity);
+                                                  Routes
+                                                      .dashBoardScreenActivity);
                                             } catch (e) {
                                               log(e.toString());
                                             }
