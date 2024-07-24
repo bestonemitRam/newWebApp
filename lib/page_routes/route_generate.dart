@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:newsweb/page_routes/routes.dart';
 import 'package:newsweb/view/auth/login.dart';
 import 'package:newsweb/view/ui/home_screen.dart';
+import 'package:newsweb/view/ui/web_screen/homeScreemweb.dart';
+import 'package:newsweb/view/ui/web_screen/homeScreemweb.dart';
 import 'package:newsweb/view/ui/web_screen/splash_Screen.dart';
 
 class RouteGenerator {
@@ -9,15 +11,17 @@ class RouteGenerator {
     Widget widgetScreen;
     switch (settings.name) {
       case Routes.loginScreen:
-        widgetScreen = LoginScreen();
+        widgetScreen = LoginScreen(); 
         break;
            case Routes.authCheck:
         widgetScreen = AuthCheck();
         break;
-
+         case Routes.homeScreen:
+        widgetScreen = HomeScreen();
+        break;
 
         
-      case Routes.dashBoardScreenActivity:
+    case Routes.dashBoardScreenActivity:
         widgetScreen = DashBoardScreenActivity();
         break;
       default:

@@ -3,12 +3,15 @@ import 'dart:developer';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:newsweb/main.dart';
 import 'package:newsweb/page_routes/routes.dart';
 import 'package:newsweb/utils/app_string.dart';
 import 'package:newsweb/utils/appimage.dart';
 import 'package:newsweb/utils/colors.dart';
 import 'package:newsweb/utils/my_progress_bar.dart';
+import 'package:newsweb/view/ui/home_screen.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:universal_html/html.dart' as html;
@@ -88,7 +91,7 @@ class _WebLoginScreenState extends State<WebLoginScreen> {
                                   child: Text(
                                     "Login",
                                     style: TextStyle(
-                                        color: Colors.black,
+                                        color: AppColors.appcardColor,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15.sp),
                                   ),
@@ -99,11 +102,12 @@ class _WebLoginScreenState extends State<WebLoginScreen> {
                                     const SizedBox(
                                       height: 15,
                                     ),
-                                    Text(
-                                      "     Contact",
-                                      style: TextStyle(
-                                          color: Colors.black, fontSize: 14.sp),
-                                    ),
+                                    // Text(
+                                    //   "     Contact",
+                                    //   style: TextStyle(
+                                    //       color: AppColors.appcardColor,
+                                    //       fontSize: 14.sp),
+                                    // ),
                                     const SizedBox(
                                       height: 5,
                                     ),
@@ -118,7 +122,7 @@ class _WebLoginScreenState extends State<WebLoginScreen> {
                                                 const BorderRadius.all(
                                                     Radius.circular(28)),
                                             border: Border.all(
-                                                color: Colors.black)),
+                                                color: AppColors.appcardColor)),
                                         child: Form(
                                             child: TextFormField(
                                           controller: phoneController,
@@ -127,10 +131,10 @@ class _WebLoginScreenState extends State<WebLoginScreen> {
                                               border: InputBorder.none,
                                               hintText: 'Enter phone number',
                                               hintStyle: TextStyle(
-                                                  color: Colors.black,
-                                                  fontSize: 14.sp)),
+                                                  color: AppColors.appcardColor,
+                                                  fontSize: 12.sp)),
                                           style: TextStyle(
-                                              color: Colors.black,
+                                              color: AppColors.appcardColor,
                                               fontSize: 14.sp),
                                         ))),
                                   ],
@@ -145,16 +149,17 @@ class _WebLoginScreenState extends State<WebLoginScreen> {
                                             backgroundColor:
                                                 MaterialStateProperty.all(
                                                     Colors.amber)),
-                                        onPressed: () async {
-                                          if (!phoneController.text.isEmpty) {
+                                        onPressed: () async 
+                                        {
+                                          if (!phoneController.text.isEmpty) 
+                                          {
                                             setState(() {
                                               isloading = true;
                                             });
 
                                             await FirebaseAuth.instance
                                                 .verifyPhoneNumber(
-                                              phoneNumber:
-                                                  "+91 " + phoneController.text,
+                                              phoneNumber:   "+91 " + phoneController.text,
                                               timeout:
                                                   const Duration(seconds: 45),
                                               verificationCompleted:
@@ -184,7 +189,6 @@ class _WebLoginScreenState extends State<WebLoginScreen> {
                                                   isSendOtp = false;
                                                   isloading = false;
 
-                                              
                                                   verificationIds =
                                                       verificationId;
                                                 });
@@ -280,7 +284,7 @@ class _WebLoginScreenState extends State<WebLoginScreen> {
                                   child: Text(
                                     "OTP Verify",
                                     style: TextStyle(
-                                        color: Colors.black,
+                                        color: AppColors.appcardColor,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 15.sp),
                                   ),
@@ -295,7 +299,7 @@ class _WebLoginScreenState extends State<WebLoginScreen> {
                                       appContext: context,
                                       length: 6,
                                       obscureText: false,
-                                      cursorColor: AppColors.blackColor,
+                                      cursorColor: AppColors.appcardColor,
                                       //animationType: AnimationType.fade,
 
                                       pastedTextStyle: TextStyle(

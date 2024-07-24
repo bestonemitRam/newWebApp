@@ -11,6 +11,7 @@ import 'package:newsweb/utils/app_string.dart';
 import 'package:newsweb/utils/apphelper.dart';
 import 'package:newsweb/utils/theme/dark_theme.dart';
 import 'package:newsweb/utils/theme/light_theme.dart';
+import 'package:newsweb/view/ui/home_screen.dart';
 import 'package:newsweb/view_model/provider/ThemeProvider.dart';
 
 import 'package:provider/provider.dart';
@@ -19,7 +20,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sidebarx/sidebarx.dart';
 
 late SharedPreferences sharedPref;
-Future<void> main() async {
+Future<void> main() async 
+{
   await Firebase.initializeApp(
       options: FirebaseOptions(
           apiKey: "AIzaSyAaD8NiMUzwleH6d81lls9_Kby8yqHzKP0",
@@ -93,6 +95,8 @@ class _MyAppState extends State<MyApp> {
                 title: 'ShoTnews',
                 debugShowCheckedModeBanner: false,
                 initialRoute: Routes.authCheck,
+                //home: DashBoardScreenActivity(),
+
                 onGenerateRoute: RouteGenerator.generateRoute,
                 theme: value.darkTheme ? lighttheme : darktheme,
               ),

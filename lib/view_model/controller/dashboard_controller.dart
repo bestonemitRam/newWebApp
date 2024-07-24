@@ -21,8 +21,7 @@ import 'package:http/http.dart' as http;
 import 'package:loader_overlay/loader_overlay.dart';
 import 'package:newsweb/utils/custom_alertDialog.dart';
 
-class RetailerController extends GetxController
- {
+class RetailerController extends GetxController {
   Rx<File?> imageFile = Rx<File?>(null);
   String selectedFile = '';
 
@@ -64,15 +63,13 @@ class RetailerController extends GetxController
         allowedExtensions: ['mp4'],
       );
 
-      if (result != null) 
-      {
+      if (result != null) {
         final fileanme = result.files.first;
         fileName.value = fileanme.name;
         final file = result.files.first.bytes;
         selectedFile = result.files.first.name;
         selectedImageInBytes = result.files.first.bytes!;
-      } else 
-      {
+      } else {
         print('User canceled image selection');
       }
     }
@@ -166,6 +163,8 @@ class RetailerController extends GetxController
             .update({
           'news_id': documentId,
         }).then((_) {
+          sendNotification(
+              titleController.text, "notification", imageUrl, documentId, 1);
           newsDescription.clear();
           referenceController.clear();
           referenceURLController.clear();
@@ -174,8 +173,6 @@ class RetailerController extends GetxController
           // selectedValue.value = 'Select Language';
           fileName.value = '';
           imageBytes.value = null;
-
-          sendNotification(titleController.text, "notification", imageUrl);
 
           Get.context!.loaderOverlay.hide();
           Fluttertoast.showToast(
@@ -203,18 +200,95 @@ class RetailerController extends GetxController
     }
   }
 
-  Future<void> sendNotification(subject, title, image) async {
-    print("kjdhgfhj ${image}");
+  Future<String> uploadVideoFile() async {
+    String videoUrl = '';
+    try {
+      firabase_storage.UploadTask uploadTask;
+
+      firabase_storage.Reference ref = firabase_storage.FirebaseStorage.instance
+          .ref()
+          .child('videos')
+          .child('/${fileName.value}');
+
+      final metadata =
+          firabase_storage.SettableMetadata(contentType: 'video/mp4');
+
+      uploadTask = ref.putData(selectedImageInBytes, metadata);
+
+      await uploadTask.whenComplete(() => null);
+      videoUrl = await ref.getDownloadURL();
+    } catch (e) {
+      print(e);
+    }
+    return videoUrl;
+  }
+
+  Future<void> addVideo(BuildContext context) async {
+    Get.context!.loaderOverlay.show();
+    String imageUrl = await uploadVideoFile();
+    var now = DateTime.now();
+
+    print("upload video  ${imageUrl}");
+
+    if (imageUrl != null) {
+      FirebaseFirestore.instance.collection('short_video').add({
+        'video_url': fileName.value != '' ? imageUrl : '',
+        'title': titleController.text,
+        'created_date': now,
+      }).then((DocumentReference documentReference) {
+        print("uploaded");
+        String documentId = documentReference.id;
+
+        FirebaseFirestore.instance
+            .collection('short_video')
+            .doc(documentId)
+            .update({
+          'video_id': documentId,
+        }).then((_) {
+          fileName.value = '';
+          imageBytes.value = null;
+          titleController.clear();
+
+          sendNotification(titleController.text, "Please watch video", imageUrl,
+              documentId, 2);
+
+          Get.context!.loaderOverlay.hide();
+          Fluttertoast.showToast(
+              msg: "Data added successfully",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.TOP,
+              timeInSecForIosWeb: 1,
+              fontSize: 16.0);
+          showDialog(
+            context: context,
+            builder: (context) {
+              return Dialog(
+                child: CustomAlertDialog('Data added successfully'),
+              );
+            },
+          );
+          print("Data added successfully !");
+        }).catchError((error) {
+          print("Failed to add data: $error");
+        });
+      }).catchError((error) {
+        // Error adding data to Firestore
+        print("Failed to add data: $error");
+      });
+    }
+  }
+
+  Future<void> sendNotification(String subject, String title, String image,
+      String documentId, int type) async {
     var uri = Uri.parse('https://fcm.googleapis.com/fcm/send');
-
     String toParams = "/topics/" + 'shotnews';
-
+    print("kjdsfghkj  ${subject}  ${documentId}, ${type}");
     final data = {
-      "notification": {"body": subject, "image": image, "title": title},
+      "notification": {"body": " ", "image": image, "title": subject},
       "priority": "high",
       "data": {
-        "click_action": "FLUTTER_NOTIFICATION_CLICK",
-        "id": "1",
+        "type": "${type}",
+        "id": "${documentId}",
         "status": "done",
         "sound": 'default',
         "screen": "shotnews",

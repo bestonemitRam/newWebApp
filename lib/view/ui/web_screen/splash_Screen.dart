@@ -72,7 +72,8 @@ class AuthCheck extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return CircularProgressIndicator();
         }
-        if (snapshot.hasData) {
+        if (snapshot.hasData) 
+        {
           return DashBoardScreenActivity();
         }
         return LoginScreen();

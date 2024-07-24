@@ -10,7 +10,9 @@ class CustomAlertDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var size = MediaQuery.of(context).size;
     return Container(
+      width: size.width / 2,
       color: Colors.white,
       padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       child: Column(
