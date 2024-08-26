@@ -54,6 +54,14 @@ class SideBarXExample extends StatelessWidget {
           icon: Icons.video_camera_back_outlined,
           label: 'Add Video',
         ),
+        SidebarXItem(
+          icon: Icons.image,
+          label: 'Add Banner',
+        ),
+          SidebarXItem(
+          icon: Icons.history,
+          label: 'History',
+        ),
       ],
     );
   }

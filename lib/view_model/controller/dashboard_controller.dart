@@ -19,11 +19,17 @@ import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firabase_storage;
 import 'package:http/http.dart' as http;
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:newsweb/model/dashboard_model.dart';
+import 'package:newsweb/services/data_service.dart';
 import 'package:newsweb/utils/custom_alertDialog.dart';
 
 class RetailerController extends GetxController {
   Rx<File?> imageFile = Rx<File?>(null);
   String selectedFile = '';
+  var datafound = false.obs;
+
+  final DataService _dataService = DataService();
+  var myData = <DashBoardModel>[].obs;
 
   Rx<Uint8List?> imageBytes = Rx<Uint8List?>(null);
   Rx<Uint8List?> imageVideo = Rx<Uint8List?>(null);
@@ -36,6 +42,15 @@ class RetailerController extends GetxController {
       imageFile.value = File(pickedFile.path);
     }
   }
+
+
+
+    void fetchData() async 
+    {
+       datafound.value = false;
+     myData.value = await _dataService.fetchData();
+       datafound.value = true;
+    }
 
   void selectImage() async {
     if (kIsWeb) {
@@ -146,7 +161,7 @@ class RetailerController extends GetxController {
         'img': imageBytes.value != null ? imageUrl : '',
         'language': selectedValue.value == "Hindi" ? 'hi' : "en",
         'news_link': referenceURLController.text,
-        'takenby': 'value2',
+        'takenby': 'Ram',
         'title': titleController.text,
         'video': fileName.value != '' ? imageUrl : '',
         "newsType": selectedtype.value,
@@ -155,7 +170,71 @@ class RetailerController extends GetxController {
       }).then((DocumentReference documentReference) {
         // Get the generated document ID
         String documentId = documentReference.id;
-        print("Generated document ID: $documentId");
+
+        FirebaseFirestore.instance
+            .collection('shortnews')
+            .doc(documentId)
+            .update({
+          'news_id': documentId,
+        }).then((_) {
+          sendNotification(
+              titleController.text, "notification", imageUrl, documentId, 1);
+          newsDescription.clear();
+          referenceController.clear();
+          referenceURLController.clear();
+          titleController.clear();
+          //selectedtype.value = 'Select News Type';
+          // selectedValue.value = 'Select Language';
+          fileName.value = '';
+          imageBytes.value = null;
+
+          Get.context!.loaderOverlay.hide();
+          Fluttertoast.showToast(
+              msg: "Data added successfully",
+              toastLength: Toast.LENGTH_SHORT,
+              gravity: ToastGravity.TOP,
+              timeInSecForIosWeb: 1,
+              fontSize: 16.0);
+          showDialog(
+            context: context,
+            builder: (context) {
+              return Dialog(
+                child: CustomAlertDialog('Data added successfully'),
+              );
+            },
+          );
+          print("Data added successfully !");
+        }).catchError((error) {
+          print("Failed to add data: $error");
+        });
+      }).catchError((error) {
+        // Error adding data to Firestore
+        print("Failed to add data: $error");
+      });
+    }
+  }
+
+  Future<void> addBanner(BuildContext context) async {
+    Get.context!.loaderOverlay.show();
+    String imageUrl = await uploadFile();
+    var now = DateTime.now();
+
+    if (imageUrl != null) {
+      FirebaseFirestore.instance.collection('shortnews').add({
+        'description': newsDescription.text,
+        'from': referenceController.text,
+        'img': imageBytes.value != null ? imageUrl : '',
+        'language': "en",
+        'news_link': referenceURLController.text,
+        'takenby': 'Ram',
+        'banner': "Yes",
+        'title': '',
+        'video': fileName.value != '' ? imageUrl : '',
+        "newsType": "My Feed",
+        "news_id": '',
+        'created_date': now,
+      }).then((DocumentReference documentReference) {
+        String documentId = documentReference.id;
 
         FirebaseFirestore.instance
             .collection('shortnews')

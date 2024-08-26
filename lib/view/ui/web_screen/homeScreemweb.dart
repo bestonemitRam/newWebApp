@@ -694,7 +694,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   } else if (controller.selectvideoOrImage.value
                                           .trim()
                                           .toString() ==
-                                      "Select video or Image") {
+                                      "Select video or Image") 
+                                      {
                                     Fluttertoast.showToast(
                                         msg: "Please select image or video !",
                                         toastLength: Toast.LENGTH_SHORT,

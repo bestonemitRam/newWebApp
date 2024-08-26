@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:newsweb/utils/apphelper.dart';
+import 'package:newsweb/view/ui/web_screen/add_image.dart';
 import 'package:newsweb/view/ui/web_screen/add_video.dart';
+import 'package:newsweb/view/ui/web_screen/history_list.dart';
 import 'package:newsweb/view/ui/web_screen/homeScreemweb.dart';
 import 'package:newsweb/view/ui/web_screen/side_menu.dart';
 import 'package:sidebarx/sidebarx.dart';
@@ -28,11 +30,9 @@ class _DashBoardScreenActivityState extends State<DashBoardScreenActivity> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   @override
-  Widget build(BuildContext context)
-   {
+  Widget build(BuildContext context) {
     return SafeArea(
-      child: Builder(builder: (context) 
-      {
+      child: Builder(builder: (context) {
         final bool isSmallScreen = MediaQuery.of(context).size.width < 600;
         return Scaffold(
           key: _scaffoldKey,
@@ -60,18 +60,20 @@ class _DashBoardScreenActivityState extends State<DashBoardScreenActivity> {
                 child: Center(
                   child: AnimatedBuilder(
                     animation: _controller,
-                    builder: (context, child) 
-                    {
-                     
-
+                    builder: (context, child) {
                       switch (_controller.selectedIndex) {
                         case 0:
                           _scaffoldKey.currentState?.closeDrawer();
                           return HomeScreen();
                         case 1:
                           _scaffoldKey.currentState?.closeDrawer();
-                          return 
-                         AddVideo();
+                          return AddVideo();
+                        case 2:
+                          _scaffoldKey.currentState?.closeDrawer();
+                          return AddImagScreen();
+                           case 3:
+                          _scaffoldKey.currentState?.closeDrawer();
+                          return NewsHistory();
 
                         default:
                           return HomeScreen();
@@ -83,8 +85,7 @@ class _DashBoardScreenActivityState extends State<DashBoardScreenActivity> {
             ],
           ),
         );
-      }
-      ),
+      }),
     );
   }
 }

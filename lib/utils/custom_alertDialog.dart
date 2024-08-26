@@ -41,7 +41,8 @@ class CustomAlertDialog extends StatelessWidget {
                 style: TextButton.styleFrom(
                     backgroundColor: HexColor("#036eb7"),
                     shape: ButtonBorder()),
-                onPressed: () {
+                onPressed: () 
+                {
                   Navigator.pop(context);
                 },
                 child: Padding(
